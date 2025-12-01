@@ -33,13 +33,19 @@ export default function Home() {
     }
   }, []);
 
+  const latestCheckIn = useMemo(() => checkIns[0], [checkIns]);
+
   useEffect(() => {
-    if (checkIns.length) {
-      localStorage.setItem("checkIns", JSON.stringify(checkIns));
-    }
+    localStorage.setItem("checkIns", JSON.stringify(checkIns));
   }, [checkIns]);
 
-  const latestCheckIn = useMemo(() => checkIns[0], [checkIns]);
+  useEffect(() => {
+    if (latestCheckIn) {
+      setSummary(latestCheckIn.summary);
+    } else {
+      setSummary("");
+    }
+  }, [latestCheckIn]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
